@@ -195,6 +195,8 @@ undo_brew() {
   for f in $(grep -E '^cask "' "$bf" | sed -E 's/^cask "([^"]+)".*/\1/'); do
     run brew uninstall --cask "$f" 2>/dev/null || warn "skip cask $f"
   done
+  # sweep orphaned dependencies the Brewfile packages pulled in (e.g. node@24)
+  run brew autoremove
   ok "Brewfile packages processed"
 }
 
