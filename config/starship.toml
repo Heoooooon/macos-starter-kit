@@ -1,0 +1,57 @@
+# starship config — installed by macos-starter-kit.
+# Tweak freely; docs: https://starship.rs/config/
+
+add_newline = true
+command_timeout = 1000
+
+format = """
+$directory$git_branch$git_status$nodejs$python$golang$rust$docker_context$cmd_duration
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold yellow)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold yellow"
+
+[cmd_duration]
+min_time = 2000
+format = "took [$duration]($style) "
+style = "dimmed white"
+
+[nodejs]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "green"
+
+[python]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "yellow"
+
+[golang]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "cyan"
+
+[rust]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "red"
+
+[docker_context]
+symbol = " "
+format = "[$symbol$context]($style) "
+style = "blue"
+only_with_files = true
