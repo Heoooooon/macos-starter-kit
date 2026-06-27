@@ -152,6 +152,32 @@ STARTER_KIT_BRANCH=v0.1.0 \
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Heoooooon/macos-starter-kit/v0.1.0/install.sh)"
 ```
 
+## Credits
+
+This kit just wires together other people's great open-source work. All credit to
+the upstream projects — please star/support them:
+
+**Base & CLI**
+- [Homebrew](https://brew.sh) · [git](https://git-scm.com) · [GitHub CLI](https://github.com/cli/cli)
+- [ripgrep](https://github.com/BurntSushi/ripgrep) · [fd](https://github.com/sharkdp/fd) · [fzf](https://github.com/junegunn/fzf) · [bat](https://github.com/sharkdp/bat)
+- [jq](https://github.com/jqlang/jq) · [tree](https://gitlab.com/OldManProgrammer/unix-tree) · [wget](https://www.gnu.org/software/wget/) · [ast-grep](https://github.com/ast-grep/ast-grep)
+- [Mole](https://github.com/tw93/Mole) — Mac clean/uninstall/analyze/optimize
+
+**Runtimes**
+- [mise](https://github.com/jdx/mise) · [uv](https://github.com/astral-sh/uv) · [rustup](https://github.com/rust-lang/rustup) · [bun](https://github.com/oven-sh/bun)
+- [Node.js](https://nodejs.org) · [Python](https://www.python.org) · [Go](https://go.dev) · [Rust](https://www.rust-lang.org) · [rust-analyzer](https://github.com/rust-lang/rust-analyzer)
+
+**Shell**
+- [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) · [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) · [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+- [Starship](https://github.com/starship/starship) · [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) ([JetBrains Mono](https://github.com/JetBrains/JetBrainsMono))
+
+**Containers & terminal**
+- [Colima](https://github.com/abiosoft/colima) · [Docker CLI](https://github.com/docker/cli) · [Compose](https://github.com/docker/compose) · [Buildx](https://github.com/docker/buildx)
+- [cmux](https://www.cmux.dev/) (Ghostty-based; [Ghostty](https://github.com/ghostty-org/ghostty))
+
+**AI agents**
+- [gajae-code](https://www.npmjs.com/package/gajae-code) · [Codex](https://github.com/openai/codex) · [lazycodex / OmO](https://github.com/code-yeongyu/lazycodex) · [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
