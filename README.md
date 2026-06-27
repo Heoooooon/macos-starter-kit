@@ -78,6 +78,25 @@ get replaced (never duplicated) on re-runs. Existing files you own are preserved
 - **codex** (`@openai/codex`) installs globally via npm (mise-managed node).
 - **lazycodex** is intentionally **never** installed globally — it always runs through `npx lazycodex-ai …` and layers the OmO harness onto codex.
 
+## Uninstall
+
+Reverse everything the kit set up, in reverse dependency order:
+
+```sh
+./uninstall.sh --dry-run     # preview the teardown
+./uninstall.sh               # run it (destructive groups are confirm-gated)
+./uninstall.sh --yes         # non-interactive, accept every removal
+./uninstall.sh --only agents # remove just one group
+```
+
+Groups: `agents shell docker runtimes brew` (run in reverse).
+
+Safe by design:
+- **Never auto-removed**: Homebrew, Xcode Command Line Tools, and your **git identity**.
+- **gajae-code (`gjc`) is kept** unless you pass `--with-gajae` (refused while `gjc` is running).
+- Removing codex backs up `~/.codex/auth.json` to `~/` first; pass `--keep-codex-home` to leave `~/.codex` intact.
+- Only the kit's own managed blocks (`# >>> macos-starter-kit:* >>>`) are stripped from your dotfiles — hand-written lines are untouched.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).

@@ -116,3 +116,22 @@ inject_block() {
   rm -f "$tmp"
   ok "wrote '$tag' block -> ${file/#$HOME/~}"
 }
+
+# remove_block <file> <tag>  — delete a managed block (markers + content). Idempotent.
+remove_block() {
+  local file="$1" tag="$2"
+  local begin="# >>> ${tag} >>>"
+  local end="# <<< ${tag} <<<"
+  [[ -f "$file" ]] || { info "no ${file/#$HOME/~} (skip '$tag')"; return 0; }
+  grep -qF "$begin" "$file" || { info "no '$tag' block in ${file/#$HOME/~}"; return 0; }
+  if [[ "$DRY_RUN" == "1" ]]; then
+    info "[dry-run] would remove '$tag' block from ${file/#$HOME/~}"
+    return 0
+  fi
+  local tmp; tmp="$(mktemp)"
+  awk -v b="$begin" -v e="$end" '
+    $0==b {skip=1} skip && $0==e {skip=0; next} !skip {print}
+  ' "$file" > "$tmp"
+  mv "$tmp" "$file"
+  ok "removed '$tag' block from ${file/#$HOME/~}"
+}
