@@ -176,7 +176,7 @@ the upstream projects — please star/support them:
 - [cmux](https://www.cmux.dev/) (Ghostty-based; [Ghostty](https://github.com/ghostty-org/ghostty))
 
 **AI agents**
-- [gajae-code](https://www.npmjs.com/package/gajae-code) · [Codex](https://github.com/openai/codex) · [lazycodex / OmO](https://github.com/code-yeongyu/lazycodex) · [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+- [gajae-code](https://github.com/Yeachan-Heo/gajae-code) · [Codex](https://github.com/openai/codex) · [lazycodex / OmO](https://github.com/code-yeongyu/lazycodex) · [Hermes Agent](https://github.com/NousResearch/hermes-agent)
 
 ## License
 
