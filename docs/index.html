@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>macos-starter-kit — 설치 흐름</title>
+<style>
+  :root {
+    --bg: #0c0e14;
+    --bg2: #11141d;
+    --card: #161a26;
+    --line: #232838;
+    --txt: #e6e9f0;
+    --dim: #8a93a8;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+    --accent: #7c9cff;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1a2030 0%, var(--bg) 55%);
+    color: var(--txt);
+    line-height: 1.6;
+    padding: 0 20px 80px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  /* hero */
+  header { text-align: center; padding: 72px 0 40px; }
+  .badge {
+    display: inline-block; font-family: var(--mono); font-size: 12px;
+    color: var(--accent); border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 14px; margin-bottom: 22px; letter-spacing: .5px;
+  }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -1px; }
+  h1 .mono { font-family: var(--mono); color: var(--accent); }
+  .tag { color: var(--dim); font-size: 17px; margin-top: 14px; }
+  .chain {
+    margin-top: 18px; font-family: var(--mono); font-size: 14px; color: var(--txt);
+  }
+  .chain b { color: var(--ok); }
+
+  /* command box */
+  .cmd {
+    margin: 34px auto 0; max-width: 720px; background: #05070c;
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+    display: flex; align-items: center; gap: 14px; text-align: left;
+  }
+  .cmd code { font-family: var(--mono); font-size: 13.5px; color: #cfe0ff; flex: 1; overflow-x: auto; white-space: nowrap; }
+  .cmd .pmt { color: var(--ok); }
+  .cmd button {
+    font-family: var(--mono); font-size: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--accent); color: #0b1020; border: 0; border-radius: 7px; padding: 7px 12px; font-weight: 700;
+  }
+  .cmd button:active { transform: translateY(1px); }
+
+  /* section heading */
+  .sec-title { margin: 64px 0 8px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
+
+  /* timeline */
+  .timeline { position: relative; margin-top: 28px; padding-left: 56px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 19px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--line));
+  }
+  .step { position: relative; margin-bottom: 26px; }
+  .step .num {
+    position: absolute; left: -56px; top: 0; width: 40px; height: 40px; border-radius: 50%;
+    background: var(--bg2); border: 2px solid var(--accent); color: var(--accent);
+    font-family: var(--mono); font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; z-index: 1;
+  }
+  .step .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px;
+    transition: border-color .15s;
+  }
+  .step .card:hover { border-color: var(--accent); }
+  .step h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; }
+  .step h3 .id { font-family: var(--mono); font-size: 12px; color: var(--accent); background: #1c2233; padding: 2px 8px; border-radius: 6px; }
+  .step p { color: var(--dim); font-size: 14.5px; margin-top: 6px; }
+  .step .needs { font-size: 12px; color: var(--warn); font-family: var(--mono); margin-top: 8px; }
+  .tools { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .tools span {
+    font-family: var(--mono); font-size: 11.5px; color: var(--txt);
+    background: #0e1119; border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px;
+  }
+  .final .num { border-color: var(--ok); color: var(--ok); }
+  .final .card { border-color: #214a30; background: linear-gradient(180deg, #12211a, var(--card)); }
+  .final h3 .id { color: var(--ok); background: #133024; }
+
+  /* flags */
+  .flags { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+  .flag { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 13px 16px; }
+  .flag code { font-family: var(--mono); color: var(--accent); font-size: 13px; }
+  .flag span { display: block; color: var(--dim); font-size: 13px; margin-top: 4px; }
+
+  /* props */
+  .props { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .prop { flex: 1 1 200px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .prop b { color: var(--ok); font-size: 14px; }
+  .prop p { color: var(--dim); font-size: 13px; margin-top: 3px; }
+
+  footer { text-align: center; margin-top: 70px; color: var(--dim); font-size: 13px; }
+  footer a { color: var(--accent); text-decoration: none; }
+  @media (max-width: 560px) {
+    h1 { font-size: 30px; }
+    .flags { grid-template-columns: 1fr; }
+    .cmd code { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">macOS · Apple Silicon · MIT</div>
+    <h1>macos-starter-kit</h1>
+    <p class="tag">새 맥북을 <b>아무것도 없는 상태</b>에서 명령어 한 줄로 완전한 개발 환경까지.</p>
+    <p class="chain">node &rarr; runtimes &rarr; shell &rarr; docker &rarr; <b>gajae-code</b> + <b>lazycodex</b></p>
+    <div class="cmd">
+      <span class="pmt">$</span>
+      <code id="curl">curl -fsSL https://raw.githubusercontent.com/Heoooooon/macos-starter-kit/main/install.sh | bash</code>
+      <button onclick="copyCmd(this)">복사</button>
+    </div>
+  </header>
+
+  <div class="sec-title">설치 순서 — 7단계 (의존성 순서대로)</div>
+
+  <div class="timeline">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="card">
+        <h3><span class="id">prereqs</span> 기반 설치</h3>
+        <p>모든 것의 토대. Xcode Command Line Tools(컴파일러·git·헤더)와 Homebrew를 깔고, brew 환경을 <code>~/.zprofile</code>에 영구 등록합니다.</p>
+        <div class="tools"><span>Xcode CLT</span><span>Homebrew</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="card">
+        <h3><span class="id">brew</span> CLI 패키지 (Brewfile)</h3>
+        <p>선언적 <code>Brewfile</code> 하나로 개발 도구를 일괄 설치. 이후 모든 단계가 여기서 깔린 도구에 의존합니다.</p>
+        <p class="needs">↳ 필요: prereqs (Homebrew)</p>
+        <div class="tools">
+          <span>gh</span><span>ripgrep</span><span>fd</span><span>fzf</span><span>bat</span><span>jq</span><span>tree</span><span>wget</span>
+          <span>mise</span><span>uv</span><span>rustup</span><span>bun</span><span>starship</span>
+          <span>colima</span><span>docker</span><span>compose</span><span>buildx</span><span>Nerd Font</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="card">
+        <h3><span class="id">runtimes</span> 런타임 설치</h3>
+        <p>mise로 언어 런타임을, rustup으로 Rust를 설치. 프로젝트별 버전 전환이 가능해집니다.</p>
+        <p class="needs">↳ 필요: brew (mise, rustup)</p>
+        <div class="tools"><span>node @lts</span><span>python @latest</span><span>go @latest</span><span>rust stable</span><span>rust-analyzer</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="card">
+        <h3><span class="id">shell</span> 셸 환경</h3>
+        <p>oh-my-zsh + 플러그인, starship 프롬프트, Nerd Font를 연결. <code>~/.zshrc</code>는 마커 블록으로 주입해 재실행해도 중복되지 않습니다.</p>
+        <p class="needs">↳ 필요: brew (starship/fzf), runtimes (mise)</p>
+        <div class="tools"><span>oh-my-zsh</span><span>autosuggestions</span><span>syntax-highlighting</span><span>starship.toml</span><span>ghostty font</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div class="card">
+        <h3><span class="id">docker</span> 컨테이너</h3>
+        <p>Docker Desktop 없이 Colima로 컨테이너 런타임 구성. <code>docker compose</code>/<code>buildx</code> 플러그인을 연결합니다.</p>
+        <p class="needs">↳ 필요: brew (colima, docker)</p>
+        <div class="tools"><span>Colima</span><span>docker CLI</span><span>compose</span><span>buildx</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">6</div>
+      <div class="card">
+        <h3><span class="id">git</span> Git &amp; GitHub</h3>
+        <p>git 신원(GitHub noreply 이메일 자동 도출), HTTPS 자격증명 도우미, 합리적 기본값을 설정. 기존 값은 덮어쓰지 않습니다.</p>
+        <p class="needs">↳ 필요: brew (gh)</p>
+        <div class="tools"><span>user.name/email</span><span>gh auth</span><span>credential helper</span><span>defaults</span></div>
+      </div>
+    </div>
+
+    <div class="step final">
+      <div class="num">7</div>
+      <div class="card">
+        <h3><span class="id">agents</span> AI 코딩 에이전트 — 최종 단계</h3>
+        <p>체인의 정점. node/bun 위에 AI 에이전트를 얹습니다. <b>gajae-code</b>는 bun 전역, <b>codex</b>는 npm 전역, <b>lazycodex</b>는 npx로 codex 위에 OmO 하니스를 설치.</p>
+        <p class="needs">↳ 필요: runtimes (node/npm), brew (bun)</p>
+        <div class="tools"><span>gajae-code (gjc)</span><span>codex</span><span>lazycodex (OmO)</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">실행 옵션</div>
+  <div class="flags">
+    <div class="flag"><code>--dry-run</code><span>아무것도 바꾸지 않고 무엇을 할지만 출력</span></div>
+    <div class="flag"><code>--yes</code><span>비대화형 — 기본값으로 자동 진행</span></div>
+    <div class="flag"><code>--only a,b</code><span>지정한 단계만 실행</span></div>
+    <div class="flag"><code>--skip a,b</code><span>지정한 단계만 건너뜀</span></div>
+    <div class="flag"><code>--no-agents</code><span>agents 단계 제외</span></div>
+    <div class="flag"><code>--list</code><span>단계 id 목록 출력</span></div>
+  </div>
+
+  <div class="sec-title">설계 원칙</div>
+  <div class="props">
+    <div class="prop"><b>멱등성</b><p>몇 번을 돌려도 안전. 설정 파일은 마커 블록으로 교체되어 중복·손상이 없습니다.</p></div>
+    <div class="prop"><b>bash 3.2 호환</b><p>맥 기본 셸로 동작. 갓 산 맥에서 추가 설치 없이 바로 실행됩니다.</p></div>
+    <div class="prop"><b>비파괴적</b><p>기존 파일·설정은 보존. 빈 값만 채우고, 사용자 것은 덮어쓰지 않습니다.</p></div>
+  </div>
+
+  <footer>
+    <p><a href="https://github.com/Heoooooon/macos-starter-kit">github.com/Heoooooon/macos-starter-kit</a> · MIT License</p>
+  </footer>
+
+</div>
+
+<script>
+  function copyCmd(btn) {
+    var t = document.getElementById('curl').innerText;
+    navigator.clipboard.writeText(t).then(function () {
+      var o = btn.innerText; btn.innerText = '복사됨 ✓';
+      setTimeout(function () { btn.innerText = o; }, 1400);
+    });
+  }
+</script>
+</body>
+</html>

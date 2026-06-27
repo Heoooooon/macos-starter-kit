@@ -5,6 +5,8 @@ runtimes, shell, containers, and AI coding agents (**gajae-code** + **lazycodex*
 
 Built and tested on Apple Silicon (M-series), macOS.
 
+📊 **[Visual install flow →](https://heoooooon.github.io/macos-starter-kit/)** (the 7 steps, in order)
+
 ## Quick start
 
 ```sh
