@@ -126,6 +126,9 @@ brew install --cask rectangle maccy
 - **[Rectangle](https://github.com/rxhanson/Rectangle)** — 창 정리(스냅), Magnet 대체용 무료/오픈소스.
 - **[Maccy](https://github.com/p0deje/Maccy)** — 클립보드 히스토리 관리, 무료/오픈소스.
 
+> **기본(base) vs 옵션:** 기본 설치는 고정된 린한 개발 base이고, 새로 추가되는 비핵심
+> 도구는 `Brewfile.optional`로 들어갑니다. [CONTRIBUTING.md](./CONTRIBUTING.md) 참고.
+
 ## 설치 후 할 일
 
 1. **새 터미널 열기** (또는 `source ~/.zshrc`) → PATH/프롬프트 로드.

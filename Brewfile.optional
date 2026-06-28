@@ -1,9 +1,8 @@
 # Brewfile.optional — NOT installed by default.
 #
-# The default kit (Brewfile) stays focused on developer tools. This file is a
-# small, intentionally curated set of free/open-source apps that make a fresh
-# Mac nicer for daily use. It is deliberately minimal — not a "recommended apps"
-# dump. Install it on purpose:
+# Policy: the default install (Brewfile) is the frozen, lean "base" — the current
+# curated dev set. Anything ADDED later that isn't a core dev tool lands here as
+# opt-in, so the base never drifts into a "recommended apps" dump. On purpose:
 #
 #   brew bundle --file Brewfile.optional
 #

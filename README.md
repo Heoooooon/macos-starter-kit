@@ -129,6 +129,9 @@ brew install --cask rectangle maccy
 - **[Rectangle](https://github.com/rxhanson/Rectangle)** — window snapping, a free/open-source Magnet alternative.
 - **[Maccy](https://github.com/p0deje/Maccy)** — clipboard history manager, free/open-source.
 
+> **Base vs. optional:** the default install is the frozen, lean dev base; new
+> non-core tools go into `Brewfile.optional`. See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## After install
 
 1. **Open a new terminal** (or `source ~/.zshrc`) so PATH/prompt load.
