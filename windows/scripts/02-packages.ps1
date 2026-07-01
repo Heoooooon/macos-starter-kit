@@ -32,5 +32,10 @@ function Step-Packages {
   # (ubi backend) in the runtimes step to stay in lockstep with the other kits.
 
   Update-SessionPath
+  if ($script:WingetFailures.Count -gt 0) {
+    Write-Warn ("Some packages did not install: " + ($script:WingetFailures -join ', '))
+    Write-Info "On a managed/standard-user PC these usually need admin (UAC) or your org's software portal."
+    Write-Info "Re-run this step from an elevated PowerShell to retry: .\install.ps1 -Only packages"
+  }
   Write-Ok "packages step complete"
 }

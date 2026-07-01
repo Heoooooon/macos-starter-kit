@@ -3,6 +3,12 @@
 function Step-Prereqs {
   Write-Step "Prerequisites: winget + TLS + execution policy"
 
+  if (Test-IsAdmin) {
+    Write-Info "Running as administrator."
+  } else {
+    Write-Info "Running as a standard user (no admin) - installing per-user where possible."
+  }
+
   # --- TLS 1.2 for any Invoke-WebRequest downloads (older PS defaults) ----
   try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
 

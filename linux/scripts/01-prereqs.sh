@@ -6,6 +6,11 @@ step_prereqs() {
 
   [[ -n "$PM" ]] || die "no supported package manager found (need apt/dnf/yum/pacman/zypper/apk)"
   info "distro: $(distro_id)   package manager: $PM"
+  if [[ "$PM" == "apk" ]]; then
+    warn "Alpine/musl is NOT supported: upstream node, ast-grep and bun ship no"
+    warn "musl builds, so the 'runtimes'/'agents' steps will fail. Use a glibc"
+    warn "distro (Debian/Ubuntu, Fedora/RHEL, Arch, openSUSE). Continuing best-effort…"
+  fi
   [[ -z "$SUDO" && "${EUID:-$(id -u)}" -ne 0 ]] && \
     warn "not root and sudo missing — system package installs may fail"
 

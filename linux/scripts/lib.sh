@@ -85,7 +85,9 @@ pm_refresh() {
     apt)    run $SUDO apt-get update -y ;;
     dnf)    run $SUDO dnf -y makecache || true ;;
     yum)    run $SUDO yum -y makecache || true ;;
-    pacman) run $SUDO pacman -Sy --noconfirm ;;
+    # Arch: a full -Syu is required — installing after a bare -Sy is a
+    # partial upgrade (unsupported, can break glibc/openssl mismatches).
+    pacman) run $SUDO pacman -Syu --noconfirm ;;
     zypper) run $SUDO zypper --non-interactive refresh || true ;;
     apk)    run $SUDO apk update ;;
     *)      warn "no supported package manager detected" ;;

@@ -20,7 +20,8 @@
 #
 # Steps (in order): prereqs packages runtimes shell docker git agents
 #
-# Supported package managers: apt · dnf/yum · pacman · zypper · apk
+# Supported package managers: apt · dnf/yum · pacman · zypper (glibc distros).
+# Alpine/musl (apk) is not supported (upstream node/ast-grep/bun lack musl builds).
 #
 set -euo pipefail
 

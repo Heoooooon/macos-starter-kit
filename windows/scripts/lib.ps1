@@ -20,6 +20,9 @@ function Write-Warn { param([string]$Message) Write-Warning $Message }
 function Write-Err  { param([string]$Message) Write-Host "  x   $Message" -ForegroundColor Red }
 function Stop-Kit   { param([string]$Message) Write-Err $Message; exit 1 }
 
+# Tracks winget packages that failed to install, for an end-of-step summary.
+if (-not (Test-Path variable:script:WingetFailures)) { $script:WingetFailures = @() }
+
 # ---------------------------------------------------------------------------
 # Predicates
 # ---------------------------------------------------------------------------
@@ -121,12 +124,16 @@ function Install-WingetPackage {
                   '--accept-source-agreements', '--silent',
                   '--disable-interactivity')
   if ($script:DryRun) {
-    Write-Host ("  [dry-run] winget {0}" -f ($wingetArgs -join ' ')) -ForegroundColor DarkGray
+    Write-Host ("  [dry-run] winget {0} [--scope user, then default]" -f ($wingetArgs -join ' ')) -ForegroundColor DarkGray
     return
   }
-  winget @wingetArgs
+  # Prefer a per-user install (no admin/UAC). If the package has no user-scope
+  # installer, retry at default scope (which may prompt for elevation).
+  winget @wingetArgs --scope user
+  if ($LASTEXITCODE -ne 0) { winget @wingetArgs }
   if ($LASTEXITCODE -ne 0) {
-    Write-Warn "winget install for $Name exited with code $LASTEXITCODE (may already be present or need a reboot)"
+    Write-Warn "winget install for $Name exited with code $LASTEXITCODE (may need admin/UAC, a reboot, or be unavailable here)"
+    $script:WingetFailures += $Name
   } else {
     Write-Ok "$Name installed"
   }

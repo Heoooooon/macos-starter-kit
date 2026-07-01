@@ -66,7 +66,7 @@ cd lazy-starter-kit
 curl -fsSL https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/linux/install.sh | bash
 ```
 
-apt · dnf/yum · pacman · zypper · apk 를 자동 감지합니다. 자세히 → **[Linux 안내서](./linux/README.md)**
+apt · dnf/yum · pacman · zypper 를 자동 감지합니다 (glibc 배포판; Alpine/musl 미지원). 자세히 → **[Linux 안내서](./linux/README.md)**
 
 ---
 

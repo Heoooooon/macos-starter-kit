@@ -45,7 +45,7 @@ idempotent, `--dry-run`-first philosophy, adapted to each OS's native tooling:
 
 | Platform | Package base | One-liner |
 |---|---|---|
-| **Linux** ([`linux/`](./linux/README.md)) | apt · dnf/yum · pacman · zypper · apk + official tool installers | `curl -fsSL https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/linux/install.sh \| bash` |
+| **Linux** ([`linux/`](./linux/README.md)) | apt · dnf/yum · pacman · zypper (glibc) + official tool installers | `curl -fsSL https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/linux/install.sh \| bash` |
 | **Windows** ([`windows/`](./windows/README.md)) | winget + mise/rustup | `irm https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/windows/install.ps1 \| iex` |
 
 Each is self-contained under its directory (`install`, `uninstall`, `scripts/`,
