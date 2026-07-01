@@ -45,6 +45,40 @@ jobs:
       - name: shellcheck
         run: shellcheck -x -S warning -e SC2154 linux/install.sh linux/uninstall.sh linux/scripts/*.sh
 
+  linux-e2e:
+    name: linux install -> uninstall (ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install (non-interactive; skip Docker + external agents)
+        run: ./linux/install.sh --yes --skip docker,agents
+
+      - name: verify installed
+        run: |
+          set -uo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$HOME/.local/share/mise/shims:$PATH"
+          fail=0
+          need() { command -v "$1" >/dev/null 2>&1 && echo "ok   $1" || { echo "MISS $1"; fail=1; }; }
+          for t in rg fd bat fzf jq gh starship mise uv bun rustup zsh; do need "$t"; done
+          for t in node go python; do
+            mise which "$t" >/dev/null 2>&1 && echo "ok   mise:$t" || { echo "MISS mise:$t"; fail=1; }
+          done
+          command -v ast-grep >/dev/null 2>&1 && echo "ok   ast-grep" || { echo "MISS ast-grep"; fail=1; }
+          grep -q 'lazy-starter-kit:main' "$HOME/.zshrc" && echo "ok   zshrc block" || { echo "MISS zshrc block"; fail=1; }
+          exit $fail
+
+      - name: uninstall (teardown)
+        run: ./linux/uninstall.sh --yes --with-gajae --skip docker
+
+      - name: verify removed
+        run: |
+          if grep -q 'lazy-starter-kit' "$HOME/.zshrc" 2>/dev/null; then
+            echo "STILL zshrc block"; exit 1
+          fi
+          echo "ok   zshrc block removed"
+
   lint-windows:
     name: windows powershell parse
     runs-on: ubuntu-latest
