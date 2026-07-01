@@ -135,9 +135,7 @@ jobs:
 
       - name: check winget (preinstalled on windows-2025 image)
         shell: pwsh
-        run: |
-          winget --version
-          winget source update --accept-source-agreements | Out-Null
+        run: winget --version
 
       - name: install (non-interactive; skip Docker Desktop + external agents)
         shell: pwsh
