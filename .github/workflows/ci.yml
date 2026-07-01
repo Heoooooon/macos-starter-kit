@@ -133,8 +133,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: ensure winget is available
-        uses: Cyberboss/install-winget@v1
+      - name: check winget (preinstalled on windows-2025 image)
+        shell: pwsh
+        run: |
+          winget --version
+          winget source update --accept-source-agreements | Out-Null
 
       - name: install (non-interactive; skip Docker Desktop + external agents)
         shell: pwsh
