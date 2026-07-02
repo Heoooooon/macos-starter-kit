@@ -19,7 +19,7 @@ jobs:
     name: shellcheck + syntax
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: bash syntax (3.2-safe parse)
@@ -34,7 +34,7 @@ jobs:
     name: linux shellcheck + syntax
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: bash syntax
@@ -50,7 +50,72 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: install (non-interactive; skip Docker; HERMES off for speed)
+        env:
+          HERMES: "0"
+        run: ./linux/install.sh --yes --skip docker
+
+      - name: verify installed
+        run: |
+          set -uo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.bun/bin:$HOME/.local/share/mise/shims:$PATH"
+          fail=0
+          need() { command -v "$1" >/dev/null 2>&1 && echo "ok   $1" || { echo "MISS $1"; fail=1; }; }
+          for t in rg fd bat fzf jq gh starship mise uv bun rustup zsh; do need "$t"; done
+          for t in node go python; do
+            mise which "$t" >/dev/null 2>&1 && echo "ok   mise:$t" || { echo "MISS mise:$t"; fail=1; }
+          done
+          command -v ast-grep >/dev/null 2>&1 && echo "ok   ast-grep" || { echo "MISS ast-grep"; fail=1; }
+          for t in gjc codex; do need "$t"; done
+          grep -q 'lazy-starter-kit:main' "$HOME/.zshrc" && echo "ok   zshrc block" || { echo "MISS zshrc block"; fail=1; }
+          exit $fail
+
+      - name: uninstall (teardown)
+        run: ./linux/uninstall.sh --yes --with-gajae --skip docker
+
+      - name: verify removed
+        run: |
+          if grep -q 'lazy-starter-kit' "$HOME/.zshrc" 2>/dev/null; then
+            echo "STILL zshrc block"; exit 1
+          fi
+          echo "ok   zshrc block removed"
+
+  linux-e2e-distros:
+    # The README claims Fedora/Arch/openSUSE are verified end-to-end; this job
+    # makes CI actually cover them (Ubuntu is covered by linux-e2e above).
+    name: linux install -> uninstall (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - fedora:latest
+          - archlinux:latest
+          - opensuse/tumbleweed
+    steps:
+      # These minimal base images ship bash/curl/tar/gzip but NOT git. Install
+      # git so actions/checkout uses git (its REST-tarball fallback would also
+      # work via tar+gzip, but git is more robust). Containers run as root and
+      # have no sudo — the kit's SUDO="" root path handles that fine.
+      - name: bootstrap container (git for checkout)
+        shell: bash
+        run: |
+          set -eux
+          if command -v dnf >/dev/null 2>&1; then
+            dnf install -y git tar gzip
+          elif command -v pacman >/dev/null 2>&1; then
+            # Arch: a bare 'pacman -Sy' is a partial-upgrade hazard, so do a full
+            # -Syu (the installer runs the same upgrade anyway under --yes).
+            pacman -Syu --noconfirm git tar
+          elif command -v zypper >/dev/null 2>&1; then
+            zypper --non-interactive install git tar gzip
+          fi
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: install (non-interactive; skip Docker; HERMES off for speed)
         env:
@@ -86,7 +151,7 @@ jobs:
     name: windows powershell parse
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: parse all .ps1 (PowerShell is preinstalled on the runner)
         shell: pwsh
         run: |
@@ -113,7 +178,7 @@ jobs:
     name: macOS dry-run
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - run: ./install.sh --dry-run
       - run: ./uninstall.sh --dry-run --yes
 
@@ -122,7 +187,7 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: install (non-interactive)
         # plain run: non-tty so Colima start is auto-declined; everything else runs.
@@ -168,7 +233,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: check winget (preinstalled on windows-2025 image)
         shell: pwsh

@@ -1,0 +1,23 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+# The gh CLI creates the release via the GitHub API using GITHUB_TOKEN; the tag
+# is already on the remote (this runs on tag push), so no checkout is needed.
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: create GitHub release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: create release with auto-generated notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --generate-notes --verify-tag
