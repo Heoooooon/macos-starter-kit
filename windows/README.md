@@ -14,7 +14,7 @@ _winget packages · runtimes · PowerShell profile · containers · and AI codin
 > ```powershell
 > irm https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/windows/install.ps1 | iex
 > ```
-> 끝나면 PowerShell을 새로 여세요. 막히면 앞에 `powershell -ExecutionPolicy Bypass -Command "..."`로 감싸 실행. (한국어 전체 안내: [README.ko](../README.ko.md#-windows--linux-도-됩니다))
+> 끝나면 PowerShell을 새로 여세요. 막히면 앞에 `powershell -ExecutionPolicy Bypass -Command "..."`로 감싸 실행. (한국어 전체 안내: [저장소 메인 README](../README.md#-windows-설치-제일-자세히))
 
 ## Quick start
 
