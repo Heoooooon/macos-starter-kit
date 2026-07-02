@@ -34,8 +34,8 @@ cd lazy-starter-kit/linux
 **Supported distros** (auto-detected package manager): Debian/Ubuntu (`apt`),
 Fedora/RHEL (`dnf`/`yum`), Arch (`pacman`), openSUSE (`zypper`) — all **glibc**.
 Alpine/musl (`apk`) is **not supported** (upstream node, ast-grep and bun ship
-no musl builds). Ubuntu is verified end-to-end in CI on every change; Fedora,
-openSUSE and Arch are verified end-to-end manually.
+no musl builds). Ubuntu, Fedora, openSUSE and Arch are all verified
+end-to-end (install → verify → uninstall) in CI on every change.
 
 ## What you get
 

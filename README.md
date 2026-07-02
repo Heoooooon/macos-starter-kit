@@ -194,13 +194,13 @@ curl -fsSL https://raw.githubusercontent.com/Heoooooon/lazy-starter-kit/main/lin
 - **git 신원 보호**: 이름/이메일이 **비어 있을 때만** 채우고, 있으면 절대 안 바꿉니다.
 - **데이터 삭제 없음**: 설치 과정에서 당신 데이터를 지우지 않습니다.
 - **되돌리기 제공**: 아래 [제거](#지우고-싶어요-제거)로 깔끔히 원복.
+- **공급망(supply chain) 정직 고지**: 이 키트는 Homebrew·oh-my-zsh·Docker·Hermes 등 **업스트림 프로젝트의 공식 설치 스크립트를 HTTPS로** 내려받아 실행하고, npm/bun 패키지는 **최신 버전으로** 설치합니다. 즉 그 업스트림들을 신뢰하는 셈이니, 걱정되면 각 프로젝트를 먼저 확인하세요. 보안 범위·신고는 [SECURITY.md](./SECURITY.md) 참고.
 
 > 정말 걱정되면 **먼저 `--dry-run`(맥/리눅스) 또는 `-DryRun`(윈도우)** 으로 "무엇을 할지"만 확인하세요.
 > 남의/회사 메인 PC라면 **여분 PC나 가상머신(VM)에서 먼저** 테스트하는 걸 권합니다.
 
-> **검증**: **macOS·Windows(Server 2025)·Ubuntu** 는 커밋마다 설치→검증→제거를
-> 자동 테스트(CI)로 돌립니다. **Fedora·openSUSE·Arch** 는 CI에는 없고, 손으로
-> 직접 설치→검증→제거(end-to-end)까지 확인했어요.
+> **검증**: **macOS·Windows(Server 2025)·Ubuntu·Fedora·openSUSE·Arch** 모두
+> 커밋마다 설치→검증→제거(end-to-end)를 자동 테스트(CI)로 돌립니다.
 
 ---
 

@@ -28,6 +28,21 @@ and the project aims to follow [Semantic Versioning](https://semver.org/).
   Agents (gajae-code + codex) are covered on Linux and Windows.
 - **Verified end-to-end on Ubuntu, Fedora, openSUSE and Arch** (glibc). Alpine/
   musl is explicitly **unsupported** (upstream node/ast-grep/bun have no musl builds).
+- **CI distro matrix**: Fedora, Arch and openSUSE Tumbleweed now run the full
+  install→verify→uninstall e2e in containers on every change (previously
+  Ubuntu-only in CI).
+- **Release automation**: pushing a `v*` tag creates a GitHub Release with
+  auto-generated notes.
+- **Repo hygiene**: `SECURITY.md` (reporting + supply-chain scope), GitHub issue
+  forms (bug/feature), PR template, and Dependabot for GitHub Actions.
+
+### Security
+- GitHub Actions are pinned to full commit SHAs (checkout bumped to v7 / Node 24).
+- The oh-my-zsh bootstrap installer is pinned to a reviewed commit instead of
+  `master`; the get.docker.com script is downloaded to a temp file and sanity-
+  checked instead of being piped straight into a root shell.
+- README now states the supply-chain tradeoff plainly (upstream installers over
+  HTTPS, npm/bun packages at latest) and links SECURITY.md.
 
 ### Changed
 - **Windows**: winget installs prefer per-user (`--scope user`) and fall back to

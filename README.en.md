@@ -123,6 +123,8 @@ and first-launch Gatekeeper/permission prompts are normal (on use, not install).
 `gh auth login` is your GitHub account sign-in, not a system permission. Uninstall is
 also fully user-space (Homebrew itself is never removed).
 
+- **Supply-chain honesty**: this kit downloads and runs the **official install scripts** from upstream projects (Homebrew, oh-my-zsh, Docker, Hermes, …) over **HTTPS**, and installs npm/bun packages at their **latest versions** — so you're trusting those upstreams. See [SECURITY.md](./SECURITY.md) for scope and reporting.
+
 ## Customize
 
 - **Brew packages** — edit [`Brewfile`](./Brewfile), then `./install.sh --only brew`.
