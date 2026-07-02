@@ -68,7 +68,7 @@ jobs:
             mise which "$t" >/dev/null 2>&1 && echo "ok   mise:$t" || { echo "MISS mise:$t"; fail=1; }
           done
           command -v ast-grep >/dev/null 2>&1 && echo "ok   ast-grep" || { echo "MISS ast-grep"; fail=1; }
-          for t in gjc codex; do need "$t"; done
+          for t in gjc codex claude; do need "$t"; done
           grep -q 'lazy-starter-kit:main' "$HOME/.zshrc" && echo "ok   zshrc block" || { echo "MISS zshrc block"; fail=1; }
           exit $fail
 
@@ -81,6 +81,9 @@ jobs:
             echo "STILL zshrc block"; exit 1
           fi
           echo "ok   zshrc block removed"
+          export PATH="$HOME/.local/bin:$PATH"
+          if command -v claude >/dev/null 2>&1; then echo "STILL claude"; exit 1; fi
+          echo "ok   claude removed"
 
   linux-e2e-distros:
     # The README claims Fedora/Arch/openSUSE are verified end-to-end; this job
@@ -146,7 +149,7 @@ jobs:
             mise which "$t" >/dev/null 2>&1 && echo "ok   mise:$t" || { echo "MISS mise:$t"; fail=1; }
           done
           command -v ast-grep >/dev/null 2>&1 && echo "ok   ast-grep" || { echo "MISS ast-grep"; fail=1; }
-          for t in gjc codex; do need "$t"; done
+          for t in gjc codex claude; do need "$t"; done
           grep -q 'lazy-starter-kit:main' "$HOME/.zshrc" && echo "ok   zshrc block" || { echo "MISS zshrc block"; fail=1; }
           exit $fail
 
@@ -159,6 +162,9 @@ jobs:
             echo "STILL zshrc block"; exit 1
           fi
           echo "ok   zshrc block removed"
+          export PATH="$HOME/.local/bin:$PATH"
+          if command -v claude >/dev/null 2>&1; then echo "STILL claude"; exit 1; fi
+          echo "ok   claude removed"
 
   lint-windows:
     name: windows powershell parse
@@ -212,10 +218,10 @@ jobs:
         run: |
           set -euo pipefail
           eval "$(/opt/homebrew/bin/brew shellenv)"
-          export PATH="$HOME/.local/share/mise/shims:$HOME/.bun/bin:/opt/homebrew/opt/rustup/bin:$PATH"
+          export PATH="$HOME/.local/share/mise/shims:$HOME/.bun/bin:$HOME/.local/bin:/opt/homebrew/opt/rustup/bin:$PATH"
           fail=0
           need() { command -v "$1" >/dev/null 2>&1 && echo "ok   $1" || { echo "MISS $1"; fail=1; }; }
-          for t in mise starship rg fd fzf bat gh colima mo node python go rustc gjc codex; do need "$t"; done
+          for t in mise starship rg fd fzf bat gh colima mo node python go rustc gjc codex claude; do need "$t"; done
           echo "node:   $(node -v)"
           echo "python: $(python --version)"
           echo "go:     $(go version)"
@@ -232,10 +238,10 @@ jobs:
         run: |
           set -euo pipefail
           eval "$(/opt/homebrew/bin/brew shellenv)" || true
-          export PATH="$HOME/.local/share/mise/shims:$HOME/.bun/bin:$PATH"
+          export PATH="$HOME/.local/share/mise/shims:$HOME/.bun/bin:$HOME/.local/bin:$PATH"
           fail=0
           gone() { command -v "$1" >/dev/null 2>&1 && { echo "STILL $1"; fail=1; } || echo "gone $1"; }
-          for t in gjc codex starship mise; do gone "$t"; done
+          for t in gjc codex claude starship mise; do gone "$t"; done
           test -d "$HOME/.oh-my-zsh" && { echo "STILL oh-my-zsh"; fail=1; } || echo "gone oh-my-zsh"
           if grep -q 'lazy-starter-kit' "$HOME/.zshrc" 2>/dev/null; then echo "STILL zshrc block"; fail=1; else echo "gone zshrc block"; fi
           test -x /opt/homebrew/bin/brew && echo "ok   Homebrew preserved" || { echo "Homebrew missing!"; fail=1; }
@@ -261,7 +267,7 @@ jobs:
         run: |
           $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' +
                       [Environment]::GetEnvironmentVariable('Path','User') + ';' +
-                      "$env:USERPROFILE\.cargo\bin;$env:USERPROFILE\.bun\bin;$env:LOCALAPPDATA\mise\shims"
+                      "$env:USERPROFILE\.cargo\bin;$env:USERPROFILE\.bun\bin;$env:USERPROFILE\.local\bin;$env:LOCALAPPDATA\mise\shims"
           $fail = 0
           function need($c) {
             if (Get-Command $c -ErrorAction SilentlyContinue) { Write-Host "ok   $c" }
@@ -274,8 +280,8 @@ jobs:
             if ($p) { Write-Host "ok   mise:$t" } else { Write-Host "warn mise:$t not resolved" }
           }
           & mise reshim 2>$null
-          $env:Path += ";$env:LOCALAPPDATA\mise\shims;$env:USERPROFILE\.bun\bin"
-          foreach ($t in 'gjc','codex') {
+          $env:Path += ";$env:LOCALAPPDATA\mise\shims;$env:USERPROFILE\.bun\bin;$env:USERPROFILE\.local\bin"
+          foreach ($t in 'gjc','codex','claude') {
             if (Get-Command $t -ErrorAction SilentlyContinue) { Write-Host "ok   $t" }
             else { Write-Host "MISS $t"; $fail = 1 }
           }
@@ -297,3 +303,7 @@ jobs:
             Write-Host "STILL profile block"; exit 1
           }
           Write-Host "ok   profile block removed"
+          if (Test-Path "$env:USERPROFILE\.local\bin\claude.exe") {
+            Write-Host "STILL claude"; exit 1
+          }
+          Write-Host "ok   claude removed"

@@ -7,6 +7,14 @@ and the project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Claude Code (`claude`) installs by default on all three kits** via the
+  official native installer (`claude.ai/install.sh` / `install.ps1`) into
+  `~/.local/bin`, with the kit's temp-file download verification. The agent
+  keeps itself updated. Uninstall removes the binary and (confirm-gated,
+  with a `.claude.json` backup) the `~/.claude` settings/history. CI verifies
+  install and removal on all six environments.
+
 ## [0.2.0] - 2026-07-02
 
 ### Added

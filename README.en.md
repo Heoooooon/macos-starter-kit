@@ -83,7 +83,7 @@ stays at the repo root.
 | **Runtimes** | **mise** → node (LTS), python, go · **rustup** → rust + rust-analyzer · uv · bun |
 | **Containers** | **Colima** + docker / compose / buildx (Docker Desktop not required) |
 | **Git/GitHub** | identity (GitHub noreply email), HTTPS credential helper, sane defaults |
-| **AI agents** | **gajae-code** (`gjc`), **codex**, **lazycodex** (OmO), **Hermes Agent** (`hermes`, Nous Research) |
+| **AI agents** | **Claude Code** (`claude`), **gajae-code** (`gjc`), **codex**, **lazycodex** (OmO), **Hermes Agent** (`hermes`, Nous Research) |
 
 ## Steps & flags
 
@@ -179,6 +179,7 @@ brew install --cask rectangle maccy
 
 ## Notes on the AI agents
 
+- **Claude Code** (`claude`) installs via the official native installer (`claude.ai/install.sh`) into `~/.local/bin` and keeps itself updated.
 - **gajae-code** (`gjc`) installs globally via **bun** (`bun add -g gajae-code`); its bin lives in `~/.bun/bin` (added to PATH by the shell block).
 - **codex** (`@openai/codex`) installs globally via npm (mise-managed node).
 - **lazycodex** is intentionally **never** installed globally — it always runs through `npx lazycodex-ai …` and layers the OmO harness onto codex.
@@ -240,7 +241,7 @@ the upstream projects — please star/support them:
 - [cmux](https://www.cmux.dev/) (Ghostty-based; [Ghostty](https://github.com/ghostty-org/ghostty))
 
 **AI agents**
-- [gajae-code](https://github.com/Yeachan-Heo/gajae-code) · [Codex](https://github.com/openai/codex) · [lazycodex / OmO](https://github.com/code-yeongyu/lazycodex) · [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+- [Claude Code](https://github.com/anthropics/claude-code) · [gajae-code](https://github.com/Yeachan-Heo/gajae-code) · [Codex](https://github.com/openai/codex) · [lazycodex / OmO](https://github.com/code-yeongyu/lazycodex) · [Hermes Agent](https://github.com/NousResearch/hermes-agent)
 
 ## License
 
