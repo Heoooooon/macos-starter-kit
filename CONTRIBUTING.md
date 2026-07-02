@@ -37,7 +37,12 @@ PRs that add non-core tools to the base will be asked to move them to
   `mapfile`, `${x,,}`, etc. (`bash -n` must pass under `/bin/bash`).
 - **Idempotent & non-destructive** — re-running must be safe; never clobber a
   user's existing config (fill empty values, use the managed-block markers).
-- **shellcheck clean** — `shellcheck -x -S warning -e SC2154 install.sh uninstall.sh scripts/*.sh`.
+- **shellcheck clean** — `shellcheck -x -S warning -e SC2154 install.sh uninstall.sh lib/common.sh scripts/*.sh`.
+- **Shared helpers live in `lib/common.sh`** — the OS-agnostic bash helpers
+  (colors, `run`, `ask`/`confirm`, `inject_block`, …) are shared by the macOS
+  (`scripts/lib.sh`) and Linux (`linux/scripts/lib.sh`) kits, which source it and
+  add only their OS-specific bits. Fix shared behavior in `lib/common.sh` so it
+  can't land in only one tree.
 - **Preview first** — verify with `./install.sh --dry-run` (and `--dry-run` for
   uninstall).
 - **CI must pass** — lint + macOS dry-run + a real install→uninstall run.
